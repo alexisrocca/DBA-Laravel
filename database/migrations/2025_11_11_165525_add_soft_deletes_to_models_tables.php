@@ -26,10 +26,6 @@ return new class extends Migration
         Schema::table('events', function (Blueprint $table) {
             $table->softDeletes();
         });
-
-        Schema::table('reminders', function (Blueprint $table) {
-            $table->softDeletes();
-        });
     }
 
     /**
@@ -50,10 +46,6 @@ return new class extends Migration
         });
 
         Schema::table('events', function (Blueprint $table) {
-            $table->dropSoftDeletes();
-        });
-
-        Schema::table('reminders', function (Blueprint $table) {
             $table->dropSoftDeletes();
         });
     }

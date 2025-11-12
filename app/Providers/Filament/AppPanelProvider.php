@@ -2,9 +2,12 @@
 
 namespace App\Providers\Filament;
 
+use App\Filament\Widgets\ActiveProjects;
+use App\Filament\Widgets\PerformanceIndicator;
+use App\Filament\Widgets\ProjectsDrillDown;
 use App\Filament\Widgets\StatsOverview;
+use App\Filament\Widgets\TasksStatusChart;
 use App\Filament\Widgets\TodayEvents;
-use App\Filament\Widgets\UpcomingReminders;
 use App\Filament\Widgets\UpcomingTasks;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -33,7 +36,7 @@ class AppPanelProvider extends PanelProvider
             ->path('app')
             // ->login()
             ->colors([
-                'primary' => Color::Amber,
+                'primary' => Color::Purple,
             ])
             ->topNavigation()
             ->discoverResources(in: app_path('Filament/Resources'), for: 'App\Filament\Resources')
@@ -43,11 +46,22 @@ class AppPanelProvider extends PanelProvider
             ])
             ->discoverWidgets(in: app_path('Filament/Widgets'), for: 'App\Filament\Widgets')
             ->widgets([
+                // Indicadores principales
+                PerformanceIndicator::class,
                 StatsOverview::class,
+
+                // Gráficos
+                TasksStatusChart::class,
+
+                // Tablas y listas
+                ActiveProjects::class,
                 UpcomingTasks::class,
                 TodayEvents::class,
-                UpcomingReminders::class,
-                AccountWidget::class,
+
+                // Drill Down (3 niveles)
+                ProjectsDrillDown::class,
+
+                // AccountWidget::class,
                 // FilamentInfoWidget::class,
             ])
             ->middleware([

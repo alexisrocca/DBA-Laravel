@@ -18,7 +18,7 @@ class TodayEvents extends TableWidget
 
     protected function getTableHeading(): ?string
     {
-        return '📅 Mis Eventos Próximos';
+        return 'Mis Eventos Próximos';
     }
 
     public function table(Table $table): Table
@@ -98,7 +98,7 @@ class TodayEvents extends TableWidget
             ])
             ->recordAction(null)
             ->recordUrl(fn ($record) => route('filament.app.resources.events.edit', $record))
-            ->emptyStateHeading('📭 No hay eventos programados')
+            ->emptyStateHeading('No hay eventos programados')
             ->emptyStateDescription('No tienes eventos próximos.')
             ->emptyStateIcon('heroicon-o-calendar');
     }

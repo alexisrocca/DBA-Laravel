@@ -27,6 +27,18 @@ class Project extends Model
     ];
 
     /**
+     * The "booted" method of the model.
+     */
+    protected static function booted(): void
+    {
+        static::addGlobalScope('user', function ($query) {
+            if (auth()->check()) {
+                $query->where('user_id', auth()->id());
+            }
+        });
+    }
+
+    /**
      * Get the user that owns the project
      */
     public function user(): BelongsTo

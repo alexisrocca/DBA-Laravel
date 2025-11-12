@@ -4,7 +4,6 @@ namespace App\Filament\Widgets;
 
 use App\Enums\TaskStatus;
 use App\Models\Event;
-use App\Models\Reminder;
 use App\Models\Task;
 use Filament\Widgets\StatsOverviewWidget;
 use Filament\Widgets\StatsOverviewWidget\Stat;
@@ -34,24 +33,11 @@ class StatsOverview extends StatsOverviewWidget
             ->whereBetween('start_time', [$today, $endOfDay])
             ->count();
 
-        // Recordatorios pendientes
-        $pendingReminders = Reminder::whereHasMorph(
-            'remindable',
-            [Task::class, Event::class],
-            function ($query) use ($userId) {
-                $query->where('user_id', $userId);
-            }
-        )
-            ->where('sent', false)
-            ->where('remind_at', '>=', now())
-            ->count();
-
         return [
             Stat::make('Tareas Pendientes', $pendingTasks)
                 ->description('Total de tareas por completar')
                 ->descriptionIcon('heroicon-o-clipboard-document-list')
-                ->color('warning')
-                ->chart([7, 5, 10, 5, $pendingTasks]),
+                ->color('warning'),
 
             Stat::make('Completadas Hoy', $completedToday)
                 ->description('Tareas finalizadas en el día')
@@ -62,11 +48,6 @@ class StatsOverview extends StatsOverviewWidget
                 ->description('Eventos programados para hoy')
                 ->descriptionIcon('heroicon-o-calendar')
                 ->color('info'),
-
-            Stat::make('Recordatorios', $pendingReminders)
-                ->description('Recordatorios pendientes')
-                ->descriptionIcon('heroicon-o-bell')
-                ->color('primary'),
         ];
     }
 }

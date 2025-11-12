@@ -19,7 +19,7 @@ class UpcomingTasks extends TableWidget
 
     protected function getTableHeading(): ?string
     {
-        return '📋 Mis Tareas Pendientes';
+        return 'Mis Tareas Pendientes';
     }
 
     public function table(Table $table): Table
@@ -98,7 +98,7 @@ class UpcomingTasks extends TableWidget
             ])
             ->recordAction(null)
             ->recordUrl(fn ($record) => route('filament.app.resources.tasks.edit', $record))
-            ->emptyStateHeading('🎉 ¡No hay tareas pendientes!')
+            ->emptyStateHeading('¡No hay tareas pendientes!')
             ->emptyStateDescription('Excelente trabajo. No tienes tareas pendientes con fecha de vencimiento.')
             ->emptyStateIcon('heroicon-o-check-circle');
     }

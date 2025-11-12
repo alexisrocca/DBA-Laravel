@@ -41,6 +41,8 @@ class TaskForm
                             ->searchable()
                             ->preload()
                             ->createOptionForm([
+                                Hidden::make('user_id')
+                                    ->default(Auth::id()),
                                 TextInput::make('name')
                                     ->required()
                                     ->maxLength(255),

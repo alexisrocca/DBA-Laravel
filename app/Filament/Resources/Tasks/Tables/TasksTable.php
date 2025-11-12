@@ -37,7 +37,9 @@ class TasksTable
                     ->badge()
                     ->color(fn (TaskStatus $state) => match ($state) {
                         TaskStatus::Pending => 'warning',
+                        TaskStatus::InProgress => 'info',
                         TaskStatus::Completed => 'success',
+                        TaskStatus::Cancelled => 'danger',
                     }),
 
                 TextColumn::make('priority')
