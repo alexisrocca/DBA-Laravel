@@ -19,14 +19,10 @@ class ProjectsTable
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Proyecto')
                     ->searchable()
                     ->sortable()
                     ->description(fn ($record) => $record->tasks()->count().' tareas'),
-                TextColumn::make('color')
-                    ->badge()
-                    ->color(fn ($state) => $state)
-                    ->formatStateUsing(fn ($state) => $state ? '●' : '—')
-                    ->label('Color'),
                 TextColumn::make('user.name')
                     ->searchable()
                     ->sortable()

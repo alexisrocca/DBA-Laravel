@@ -58,6 +58,17 @@ class Task extends Model
                 $query->where('user_id', auth()->id());
             }
         });
+
+        // Actualizar completed_at automáticamente cuando se marca como completado
+        static::updating(function (Task $task) {
+            if ($task->isDirty('status')) {
+                if ($task->status === TaskStatus::Completado && ! $task->completed_at) {
+                    $task->completed_at = now();
+                } elseif ($task->status !== TaskStatus::Completado) {
+                    $task->completed_at = null;
+                }
+            }
+        });
     }
 
     /**

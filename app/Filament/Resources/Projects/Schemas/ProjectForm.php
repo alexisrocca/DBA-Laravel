@@ -2,7 +2,6 @@
 
 namespace App\Filament\Resources\Projects\Schemas;
 
-use Filament\Forms\Components\ColorPicker;
 use Filament\Forms\Components\Hidden;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -17,12 +16,10 @@ class ProjectForm
                 Hidden::make('user_id')
                     ->default(Auth::id()),
                 TextInput::make('name')
+                    ->label('Nombre del Proyecto')
                     ->required()
                     ->maxLength(255)
                     ->columnSpanFull(),
-                ColorPicker::make('color')
-                    ->label('Color del Proyecto')
-                    ->nullable(),
             ]);
     }
 }

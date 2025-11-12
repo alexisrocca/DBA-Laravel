@@ -12,14 +12,15 @@ class ProjectInfolist
         return $schema
             ->components([
                 TextEntry::make('user.name')
-                    ->label('User'),
-                TextEntry::make('name'),
-                TextEntry::make('color')
-                    ->placeholder('-'),
+                    ->label('Usuario'),
+                TextEntry::make('name')
+                    ->label('Nombre del Proyecto'),
                 TextEntry::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('Actualizado')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

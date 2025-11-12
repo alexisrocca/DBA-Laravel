@@ -28,7 +28,7 @@ class UpcomingTasks extends TableWidget
             ->query(
                 Task::query()
                     ->where('user_id', Auth::id())
-                    ->where('status', TaskStatus::Pending)
+                    ->where('status', TaskStatus::Pendiente)
                     ->whereNotNull('due_date')
                     ->orderBy('due_date', 'asc')
                     ->limit(10)
@@ -45,9 +45,9 @@ class UpcomingTasks extends TableWidget
                     ->label('Prioridad')
                     ->badge()
                     ->color(fn (TaskPriority $state) => match ($state) {
-                        TaskPriority::Low => 'gray',
-                        TaskPriority::Medium => 'info',
-                        TaskPriority::High => 'danger',
+                        TaskPriority::Baja => 'gray',
+                        TaskPriority::Media => 'info',
+                        TaskPriority::Alta => 'danger',
                     }),
 
                 TextColumn::make('due_date')

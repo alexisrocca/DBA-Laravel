@@ -3,18 +3,17 @@
 namespace App\Filament\Widgets;
 
 use App\Models\Task;
-use Filament\Widgets\Widget;
+use Filament\Widgets\StatsOverviewWidget;
+use Filament\Widgets\StatsOverviewWidget\Stat;
 use Illuminate\Support\Facades\Auth;
 
-class PerformanceIndicator extends Widget
+class PerformanceIndicator extends StatsOverviewWidget
 {
     protected static ?int $sort = 1;
 
-    protected string $view = 'filament.widgets.performance-indicator';
+    protected ?string $pollingInterval = '10s';
 
-    protected int|string|array $columnSpan = 'full';
-
-    public function getPerformanceData(): array
+    protected function getStats(): array
     {
         $userId = Auth::id();
         $thirtyDaysAgo = now()->subDays(30);
@@ -25,18 +24,6 @@ class PerformanceIndicator extends Widget
             ->where('due_date', '>=', $thirtyDaysAgo)
             ->count();
 
-        if ($totalTasksWithDueDate === 0) {
-            return [
-                'status' => 'neutral',
-                'percentage' => 0,
-                'message' => 'Sin tareas con vencimiento reciente',
-                'color' => 'gray',
-                'icon' => '⚪',
-                'total' => 0,
-                'completed_on_time' => 0,
-            ];
-        }
-
         // Tareas completadas a tiempo (antes o en la fecha de vencimiento)
         $completedOnTime = Task::where('user_id', $userId)
             ->whereNotNull('due_date')
@@ -45,34 +32,64 @@ class PerformanceIndicator extends Widget
             ->whereRaw('completed_at <= due_date')
             ->count();
 
-        $percentage = round(($completedOnTime / $totalTasksWithDueDate) * 100);
+        $percentage = $totalTasksWithDueDate > 0
+            ? round(($completedOnTime / $totalTasksWithDueDate) * 100)
+            : 0;
 
         // Determinar el estado del semáforo
         if ($percentage >= 80) {
-            $status = 'optimal';
-            $message = '¡Excelente! Rendimiento óptimo';
+            $message = 'Excelente rendimiento';
             $color = 'success';
-            $icon = '🟢';
+            $icon = 'heroicon-o-check-circle';
+            $statusIcon = '🟢';
         } elseif ($percentage >= 50) {
-            $status = 'medium';
-            $message = 'Rendimiento aceptable, puedes mejorar';
+            $message = 'Rendimiento aceptable';
             $color = 'warning';
-            $icon = '🟡';
+            $icon = 'heroicon-o-exclamation-triangle';
+            $statusIcon = '🟡';
         } else {
-            $status = 'low';
-            $message = 'Atención: Rendimiento bajo';
+            $message = 'Requiere atención';
             $color = 'danger';
-            $icon = '🔴';
+            $icon = 'heroicon-o-x-circle';
+            $statusIcon = '🔴';
         }
 
         return [
-            'status' => $status,
-            'percentage' => $percentage,
-            'message' => $message,
-            'color' => $color,
-            'icon' => $icon,
-            'total' => $totalTasksWithDueDate,
-            'completed_on_time' => $completedOnTime,
+            // Card principal del indicador
+            Stat::make('Rendimiento General', $percentage.'%')
+                ->description($message)
+                ->descriptionIcon($icon)
+                ->color($color),
+
+            // Card de tareas a tiempo
+            Stat::make('A Tiempo', $completedOnTime)
+                ->description('Completadas antes del vencimiento')
+                ->descriptionIcon('heroicon-o-clock')
+                ->color('success'),
+
+            // Card de total de tareas
+            Stat::make('Total Tareas', $totalTasksWithDueDate)
+                ->description('Con vencimiento (últimos 30 días)')
+                ->descriptionIcon('heroicon-o-calendar')
+                ->color('info'),
+
+            // Card del semáforo Óptimo
+            Stat::make('🟢 Óptimo', '≥ 80%')
+                ->description('Excelente cumplimiento')
+                ->descriptionIcon('heroicon-o-arrow-trending-up')
+                ->color($percentage >= 80 ? 'success' : 'gray'),
+
+            // Card del semáforo Aceptable
+            Stat::make('🟡 Aceptable', '50% - 79%')
+                ->description('Requiere atención')
+                ->descriptionIcon('heroicon-o-minus-circle')
+                ->color($percentage >= 50 && $percentage < 80 ? 'warning' : 'gray'),
+
+            // Card del semáforo Bajo
+            Stat::make('🔴 Bajo', '< 50%')
+                ->description('Acción inmediata')
+                ->descriptionIcon('heroicon-o-arrow-trending-down')
+                ->color($percentage < 50 && $totalTasksWithDueDate > 0 ? 'danger' : 'gray')
         ];
     }
 }

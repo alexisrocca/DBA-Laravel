@@ -40,7 +40,7 @@ class TaskFactory extends Factory
     public function completed(): static
     {
         return $this->state(fn (array $attributes) => [
-            'status' => TaskStatus::Completed->value,
+            'status' => TaskStatus::Completado->value,
             'completed_at' => now(),
         ]);
     }

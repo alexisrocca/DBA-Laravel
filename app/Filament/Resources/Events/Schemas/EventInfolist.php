@@ -13,18 +13,24 @@ class EventInfolist
         return $schema
             ->components([
                 TextEntry::make('user.name')
-                    ->label('User'),
-                TextEntry::make('title'),
+                    ->label('Usuario'),
+                TextEntry::make('title')
+                    ->label('Título'),
                 TextEntry::make('start_time')
+                    ->label('Hora de Inicio')
                     ->dateTime(),
                 TextEntry::make('end_time')
+                    ->label('Hora de Fin')
                     ->dateTime(),
                 IconEntry::make('is_all_day')
+                    ->label('Evento de Todo el Día')
                     ->boolean(),
                 TextEntry::make('created_at')
+                    ->label('Creado')
                     ->dateTime()
                     ->placeholder('-'),
                 TextEntry::make('updated_at')
+                    ->label('Actualizado')
                     ->dateTime()
                     ->placeholder('-'),
             ]);

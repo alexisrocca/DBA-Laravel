@@ -12,30 +12,38 @@ class TaskInfolist
         return $schema
             ->components([
                 TextEntry::make('user.name')
-                    ->label('User'),
+                    ->label('Usuario'),
                 TextEntry::make('project.name')
-                    ->label('Project')
+                    ->label('Proyecto')
                     ->placeholder('-'),
-                TextEntry::make('title'),
+                TextEntry::make('title')
+                    ->label('Título'),
                 TextEntry::make('description')
+                    ->label('Descripción')
                     ->placeholder('-')
                     ->columnSpanFull(),
                 TextEntry::make('status')
-                    ->badge(),
+                    ->badge()
+                    ->label('Estado'),
                 TextEntry::make('priority')
-                    ->badge(),
+                    ->badge()
+                    ->label('Prioridad'),
                 TextEntry::make('due_date')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('Fecha de Vencimiento'),
                 TextEntry::make('completed_at')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('Fecha de Finalización'),
                 TextEntry::make('created_at')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('Fecha de Creación'),
                 TextEntry::make('updated_at')
                     ->dateTime()
-                    ->placeholder('-'),
+                    ->placeholder('-')
+                    ->label('Fecha de Actualización'),
             ]);
     }
 }

@@ -55,14 +55,14 @@ class TaskForm
                         Select::make('status')
                             ->label('Estado')
                             ->options(TaskStatus::class)
-                            ->default('pending')
+                            ->default('pendiente')
                             ->required()
                             ->native(false),
 
                         Select::make('priority')
                             ->label('Prioridad')
                             ->options(TaskPriority::class)
-                            ->default('medium')
+                            ->default('media')
                             ->required()
                             ->native(false),
 

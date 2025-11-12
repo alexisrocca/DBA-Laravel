@@ -22,32 +22,36 @@ class TasksTable
         return $table
             ->columns([
                 TextColumn::make('title')
+                    ->label('Tarea')
                     ->searchable()
                     ->sortable()
                     ->description(fn ($record) => $record->description)
                     ->limit(50),
 
                 TextColumn::make('project.name')
+                    ->label('Proyecto')
                     ->badge()
                     ->color(fn ($record) => $record->project?->color)
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('status')
+                    ->label('Estado')
                     ->badge()
                     ->color(fn (TaskStatus $state) => match ($state) {
-                        TaskStatus::Pending => 'warning',
-                        TaskStatus::InProgress => 'info',
-                        TaskStatus::Completed => 'success',
-                        TaskStatus::Cancelled => 'danger',
+                        TaskStatus::Pendiente => 'warning',
+                        TaskStatus::EnProgreso => 'info',
+                        TaskStatus::Completado => 'success',
+                        TaskStatus::Cancelada => 'danger',
                     }),
 
                 TextColumn::make('priority')
+                    ->label('Prioridad')
                     ->badge()
                     ->color(fn (TaskPriority $state) => match ($state) {
-                        TaskPriority::Low => 'gray',
-                        TaskPriority::Medium => 'info',
-                        TaskPriority::High => 'danger',
+                        TaskPriority::Baja => 'gray',
+                        TaskPriority::Media => 'info',
+                        TaskPriority::Alta => 'danger',
                     }),
 
                 TextColumn::make('due_date')
@@ -63,16 +67,19 @@ class TasksTable
                     ->toggleable(),
 
                 TextColumn::make('user.name')
+                    ->label('Usuario')
                     ->searchable()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('created_at')
+                    ->label('Creada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
+                    ->label('Actualizada')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
@@ -80,14 +87,17 @@ class TasksTable
             ->defaultSort('due_date', 'asc')
             ->filters([
                 SelectFilter::make('status')
+                    ->label('Estado')
                     ->options(TaskStatus::class)
                     ->native(false),
 
                 SelectFilter::make('priority')
+                    ->label('Prioridad')
                     ->options(TaskPriority::class)
                     ->native(false),
 
                 SelectFilter::make('project')
+                    ->label('Proyecto')
                     ->relationship('project', 'name')
                     ->searchable()
                     ->preload(),

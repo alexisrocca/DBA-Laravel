@@ -35,6 +35,7 @@ class EventForm
                     ->required()
                     ->native(false)
                     ->seconds(false)
+                    ->locale('es')
                     ->after('start_time'),
 
                 Toggle::make('is_all_day')

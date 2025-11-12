@@ -6,8 +6,8 @@ namespace App\Enums;
 
 enum TaskStatus: string
 {
-    case Pending = 'pending';
-    case InProgress = 'in_progress';
-    case Completed = 'completed';
-    case Cancelled = 'cancelled';
+    case Pendiente = 'pendiente';
+    case EnProgreso = 'en_progreso';
+    case Completado = 'completado';
+    case Cancelada = 'cancelada';
 }

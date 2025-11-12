@@ -19,12 +19,12 @@ class StatsOverview extends StatsOverviewWidget
 
         // Tareas pendientes
         $pendingTasks = Task::where('user_id', $userId)
-            ->where('status', TaskStatus::Pending)
+            ->where('status', TaskStatus::Pendiente)
             ->count();
 
         // Tareas completadas hoy
         $completedToday = Task::where('user_id', $userId)
-            ->where('status', TaskStatus::Completed)
+            ->where('status', TaskStatus::Completado)
             ->whereBetween('completed_at', [$today, $endOfDay])
             ->count();
 
