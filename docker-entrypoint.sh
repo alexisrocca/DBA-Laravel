@@ -27,11 +27,9 @@ php artisan view:cache
 echo "📊 Ejecutando migraciones..."
 php artisan migrate --force
 
-# Opcional: Ejecutar seeders solo si la base de datos está vacía
-if [ ! -s /var/www/database/database.sqlite ] || [ "$(sqlite3 /var/www/database/database.sqlite "SELECT COUNT(*) FROM users;" 2>/dev/null || echo "0")" = "0" ]; then
-    echo "🌱 Ejecutando seeders (base de datos vacía)..."
-    php artisan db:seed --force
-fi
+# Crear usuario admin si no existe (sin usar seeders)
+echo "👤 Creando usuario administrador..."
+php artisan admin:create "pepe@dba.com" "password" "Pepe - El Mejor Alumno"
 
 # Usar variable PORT de Render, o 8080 por defecto
 PORT=${PORT:-8080}
